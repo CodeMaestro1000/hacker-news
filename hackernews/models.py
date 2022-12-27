@@ -34,7 +34,7 @@ class Comments(models.Model):
     author = models.CharField(max_length=200, null=False)
     date_added = models.DateField(null=False)
     kids = models.BooleanField(null=False, default=False)
-    text = models.CharField(max_length=2000, null=False)
+    text = models.CharField(max_length=4000, null=False)
 
     
 
