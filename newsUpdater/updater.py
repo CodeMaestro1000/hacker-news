@@ -4,5 +4,5 @@ from newsUpdater.getter import get_stories
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(get_stories, 'interval', minutes=10)
+    scheduler.add_job(get_stories, 'interval', minutes=2)
     scheduler.start()

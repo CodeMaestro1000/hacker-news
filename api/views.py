@@ -13,23 +13,47 @@ import string, random
 # Create your views here.
 class DataAPIListView(generics.ListAPIView):
     """Gets all stories - both regular stories and jobs"""
-    queryset = Stories.objects.all()
     serializer_class = GetStorySerializer
+
+    def get_queryset(self):
+        query = self.request.GET.get('order')
+        print(query)
+        if query == 'desc':
+            return Stories.objects.all().order_by('date_added')
+        return Stories.objects.all()
 
 class JobStoryAPIListView(generics.ListAPIView):
     """Gets all job stories"""
-    queryset = Stories.objects.filter(story_type='job')
+    # queryset = Stories.objects.filter(story_type='job')
     serializer_class = GetStorySerializer
+
+    def get_queryset(self):
+        query = self.request.GET.get('order')
+        if query == 'desc':
+            return Stories.objects.filter(story_type='job').order_by('date_added')
+        return Stories.objects.filter(story_type='job')
 
 class StoryAPIListView(generics.ListAPIView):
     """Gets all regular stories that were pulled from hacker news"""
-    queryset = Stories.objects.filter(from_hn=True)
+    # queryset = Stories.objects.filter(from_hn=True)
     serializer_class = GetStorySerializer
+
+    def get_queryset(self):
+        query = self.request.GET.get('order')
+        if query == 'desc':
+            return Stories.objects.filter(from_hn=True).order_by('date_added')
+        return Stories.objects.filter(from_hn=True)
 
 class UserStoryAPIListView(generics.ListAPIView):
     """Gets all stories that were created by users"""
-    queryset = Stories.objects.filter(from_hn=False)
+    # queryset = Stories.objects.filter(from_hn=False)
     serializer_class = GetStorySerializer
+
+    def get_queryset(self):
+        query = self.request.GET.get('order')
+        if query == 'desc':
+            return Stories.objects.filter(from_hn=False).order_by('date_added')
+        return Stories.objects.filter(from_hn=False)
 
 class StoryCreateAPIView(generics.CreateAPIView):
     """Create a new story, requires the user to be authenticated"""
