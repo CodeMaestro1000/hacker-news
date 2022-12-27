@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load extra_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="fs-3">{{story.title}}</h1>
+    <p class="text-muted">By: {{story.author}} | Score: {{story.score}}</p>
+
+    {% if story.url %}
+    <p><a class="btn btn-success" href="{{story.url}}">Read More</a></p>
+    {% endif %}
+
+    {% if not story.from_hn %}
+        {% if story.author == user.username %}
+            <div>
+                <a class="btn btn-success" href="{% url 'edit_story' story.pk %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'delete_story' story.pk %}">Delete</a>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <p class="mt-4">{{story.text}}</p>
+
+    <h2 class="fs-5 mt-4">Comments</h2>
+    <ul id="myUL">
+        {% for id, comment in comment_data.items|list %}
+        {% if comment_data|get:id %}
+            <li class="comment">
+                {% if comment.kids %}
+                    <span class="caret">{{ comment.text | safe }}</span>
+                    <small class="d-block mt-2 text-muted">By: {{ comment.author }} | Date: {{comment.date}}</small>
+                    <ul class="nested">
+                        {% for child in comment.kids %}
+                            {% if comment_data|get:child %}
+                                {% with child_comment=comment_data|get:child comment_data=comment_data template_name="child_comments.html" %}
+                                    {% include template_name %}
+                                {% endwith %}
+                                <p class="hidden">{{comment_data|pop:child}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>{{ comment.text | safe }}</p>
+                    <small class="text-muted">By: {{ comment.author }} | Date: {{comment.date}}</small>
+                {% endif %}
+            </li>
+        <p class="hidden">{{comment_data|pop:id}}</p>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'js/app.js' %}"></script>
+{% endblock script %}

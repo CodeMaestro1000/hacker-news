@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+requests = "*"
+pytz = "*"
+djangorestframework = "*"
+django-cors-headers = "==3.4.0"
+apscheduler = "*"
+environs = {version = "==8.0.0", extras = ["django"]}
+whitenoise = "==5.1.0"
+pyyaml = "*"
+uritemplate = "*"
+psycopg2-binary = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

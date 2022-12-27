@@ -1,0 +1,18 @@
+{% load extra_tags %}
+<li class="">
+    {% if child_comment.kids %}
+    <span class="">{{ child_comment.text | safe }}</span>
+    <small class="d-block mt-2 text-muted">By: {{ child_comment.author }} | Date: {{child_comment.date}}</small>
+        <ul class="">
+            {% for child in child_comment.kids %}
+                {% with child_comment=comment_data|get:child comment_data=comment_data template_name="child_comments.html" %}
+                    {% include template_name %}
+                {% endwith %}
+                <p class="hidden">{{comment_data|pop:child}}</p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{{child_comment.text | safe}}</p>
+        <small class="text-muted">By: {{ child_comment.author }} | Date: {{child_comment.date}}</small>
+    {% endif %}
+</li>

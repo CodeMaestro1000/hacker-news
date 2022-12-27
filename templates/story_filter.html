@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load extra_tags %}
+
+{% block content %}
+    <div class="container-fluid my-1">
+        {% if story_list %}
+            {% for news in story_list %}
+            <div class="container border-bottom py-2">
+                <p class="card-title"><a  class="text-decoration-none" href="{% url 'story_detail' news.pk %}">{{news.title}}</a></p>
+                <small class="card-subtitle text-muted">By: {{news.author}} | Date: {{news.date_added}}</small>
+            </div>
+                
+            {% endfor %}
+            <div class="container pagination my-2">
+                <span class="step-links">
+                    <small class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </small>
+
+                    <a class="btn btn-success px-4" href="{{request.get_full_path}}&page=1">&laquo; first</a>
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-danger px-4" href="{{request.get_full_path}}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-success px-4" href="{{request.get_full_path}}&page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                    <a class="btn btn-danger px-4" href="{{request.get_full_path}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                </span>
+            </div>
+        {% else %}
+            <p>No Results found</p>
+        {% endif %}
+    </div> 
+{% endblock content %}
