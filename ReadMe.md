@@ -39,7 +39,7 @@ And then to setup the database for the very first time (this command should only
 docker-compose exec web python manage.py migrate
 ```
 
-Once the container is running, you can visit the homepage: http://localhost:8000/. You wouldn't see any data just yet because the data is pulled every 2 minutes. Refresh the page after 4 minutes (take into account the time it takes to pull the data) and then voila!
+Once the container is running, you can visit the homepage: http://localhost:8000/. You wouldn't see any data just yet because the data is pulled every 2 minutes. Refresh the page after 4 minutes (take into account the time it takes to pull the data) or create an account and add new stories and you're all set!
 
 You can also try out the API endpoints using postman or whatever tool you like.
 
